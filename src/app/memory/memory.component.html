@@ -1,0 +1,6 @@
+<p>memory works!</p>
+
+<mat-card *ngFor="let card of cards">
+    <mat-card-actions *ngIf="!card.revealed"><button mat-raised-button (click)="reveal(card)" >aufdecken!</button></mat-card-actions>
+    <mat-card-content *ngIf="card.revealed">{{card.caption}}</mat-card-content>
+</mat-card>
