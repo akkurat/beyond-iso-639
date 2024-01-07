@@ -1,7 +1,8 @@
 <div>
-    <div *ngFor="let item of translations">
-        <p (click)="item.matched = !item.matched">{{item.a}} {{item.matched}}</p>
-    </div>
+    <app-word  *ngFor="let item of translations" [wordText]="item.a" (click)="activate(item)">
+
+    </app-word>
+
     <div *ngFor="let item of translations">
         <p>{{item.b}} {{item.matched}}</p>
     </div>
