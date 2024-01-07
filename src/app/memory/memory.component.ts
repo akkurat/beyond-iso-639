@@ -20,6 +20,7 @@ export class MemoryComponent implements OnInit {
 
   cards: Card[] = []
   private eventPipeline: Subject<Card>;
+  
   constructor(private translationsService: TranslationsService) { 
     this.eventPipeline = new Subject();
   }
@@ -36,10 +37,8 @@ export class MemoryComponent implements OnInit {
     .map<[number,Card]>((c,i,a) => [Math.random(),c])
     .sort( (a,b) => a[0] - b[0])
     .map( tup => tup[1])
-
-    this.eventPipeline.pipe(
-         
-      )
+    
+    this.eventPipeline.asObservable().subscribe( c => this._reveal(c))
 
   }
 
