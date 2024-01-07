@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslationsService } from '../translations.service';
+import { Subject } from 'rxjs';
 
 type Card = {
   group: number;
@@ -14,8 +15,14 @@ type Card = {
   styleUrls: ['./memory.component.scss']
 })
 export class MemoryComponent implements OnInit {
+
+
+
   cards: Card[] = []
-  constructor(private translationsService: TranslationsService) { }
+  private eventPipeline: Subject<Card>;
+  constructor(private translationsService: TranslationsService) { 
+    this.eventPipeline = new Subject();
+  }
   ngOnInit(): void {
     const translations = this.translationsService.getTranslations()
 
@@ -25,8 +32,23 @@ export class MemoryComponent implements OnInit {
       this.cards.push({ group: i, caption: languages[1], revealed: false, done: false })
     }
 
+    this.cards = this.cards
+    .map<[number,Card]>((c,i,a) => [Math.random(),c])
+    .sort( (a,b) => a[0] - b[0])
+    .map( tup => tup[1])
+
+    this.eventPipeline.pipe(
+         
+      )
+
   }
-  reveal(evCard: Card) {
+
+  reveal(evCard: Card)
+  {
+    this.eventPipeline.next(evCard)
+  }
+
+  private _reveal(evCard: Card) {
     for (const card of this.cards) {
       if (!card.done) {
         if (card.revealed) {
